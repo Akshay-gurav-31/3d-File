@@ -1,4 +1,27 @@
+GLB 3D Model Usage in Python (Using Trimesh)
+===========================================
+
+This text file explains how to install required libraries, load a GLB 3D model,
+read its information, save details to a TXT file, and view the model using Python.
+
+--------------------------------------------------
+STEP 1: Install Required Libraries
+--------------------------------------------------
+
+Run this command in terminal or command prompt:
+
 pip install trimesh pyglet numpy
+
+Libraries used:
+- trimesh : Load and analyze 3D models
+- pyglet  : Display 3D models
+- numpy   : Numerical operations
+
+--------------------------------------------------
+STEP 2: Load GLB Model and Print Information
+--------------------------------------------------
+
+Python Code:
 
 import trimesh
 
@@ -16,6 +39,17 @@ if isinstance(model, trimesh.Scene):
         print(f"Geometry name: {name}")
         print(f"Vertices: {len(geometry.vertices)}")
         print(f"Faces: {len(geometry.faces)}")
+
+This code:
+- Loads the GLB file
+- Checks model type
+- Prints mesh names, vertices, and faces
+
+--------------------------------------------------
+STEP 3: Save Model Information to TXT File
+--------------------------------------------------
+
+Python Code:
 
 import trimesh
 
@@ -36,5 +70,25 @@ with open("model_info.txt", "w") as file:
         file.write(f"Vertices: {len(model.vertices)}\n")
         file.write(f"Faces: {len(model.faces)}\n")
 
+This creates a file named:
+model_info.txt
+
+--------------------------------------------------
+STEP 4: View the GLB Model
+--------------------------------------------------
+
+Python Code:
+
 model.show()
 
+This opens a 3D preview window.
+
+--------------------------------------------------
+NOTES
+--------------------------------------------------
+
+- Keep model.glb in the same folder as the Python script
+- Works for static GLB models
+- For animations or Blender export, extra steps are needed
+
+END OF FILE
