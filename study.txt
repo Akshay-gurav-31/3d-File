@@ -1,1 +1,40 @@
 pip install trimesh pyglet numpy
+
+import trimesh
+
+# Load the GLB file
+model = trimesh.load("model.glb")
+
+# Print basic information
+print("Model type:", type(model))
+print("Number of geometries:", len(model.geometry))
+print("Is model watertight:", model.is_watertight)
+
+# If the model is a scene
+if isinstance(model, trimesh.Scene):
+    for name, geometry in model.geometry.items():
+        print(f"Geometry name: {name}")
+        print(f"Vertices: {len(geometry.vertices)}")
+        print(f"Faces: {len(geometry.faces)}")
+
+import trimesh
+
+model = trimesh.load("model.glb")
+
+with open("model_info.txt", "w") as file:
+    file.write("GLB Model Information\n")
+    file.write("---------------------\n")
+
+    if isinstance(model, trimesh.Scene):
+        file.write(f"Number of meshes: {len(model.geometry)}\n\n")
+
+        for name, geometry in model.geometry.items():
+            file.write(f"Mesh Name: {name}\n")
+            file.write(f"Vertices: {len(geometry.vertices)}\n")
+            file.write(f"Faces: {len(geometry.faces)}\n\n")
+    else:
+        file.write(f"Vertices: {len(model.vertices)}\n")
+        file.write(f"Faces: {len(model.faces)}\n")
+
+model.show()
+
