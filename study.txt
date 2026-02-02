@@ -1,52 +1,59 @@
-GLB 3D Model Usage in Python (Using Trimesh)
-===========================================
+GLB 3D Model Handling in Python (Improved Guide)
+===============================================
 
-This text file explains how to install required libraries, load a GLB 3D model,
-read its information, save details to a TXT file, and view the model using Python.
+This document explains how to install required libraries, load a GLB 3D model,
+inspect its data, save model details to a TXT file, and preview the model using Python.
 
 --------------------------------------------------
-STEP 1: Install Required Libraries
+1. REQUIREMENTS
 --------------------------------------------------
 
-Run this command in terminal or command prompt:
+Python version:
+- Python 3.8 or higher
+
+Install required libraries using pip:
 
 pip install trimesh pyglet numpy
 
-Libraries used:
-- trimesh : Load and analyze 3D models
-- pyglet  : Display 3D models
-- numpy   : Numerical operations
+Libraries:
+- trimesh : Load and analyze GLB / glTF models
+- pyglet  : OpenGL-based 3D viewer
+- numpy   : Numerical calculations
 
 --------------------------------------------------
-STEP 2: Load GLB Model and Print Information
+2. LOAD GLB MODEL AND PRINT DETAILS
 --------------------------------------------------
 
 Python Code:
 
 import trimesh
 
-# Load the GLB file
-model = trimesh.load("model.glb")
+try:
+    # Load GLB model
+    model = trimesh.load("model.glb")
 
-# Print basic information
-print("Model type:", type(model))
-print("Number of geometries:", len(model.geometry))
-print("Is model watertight:", model.is_watertight)
+    print("Model loaded successfully")
+    print("Model type:", type(model))
+    print("Is model watertight:", model.is_watertight)
 
-# If the model is a scene
-if isinstance(model, trimesh.Scene):
-    for name, geometry in model.geometry.items():
-        print(f"Geometry name: {name}")
-        print(f"Vertices: {len(geometry.vertices)}")
-        print(f"Faces: {len(geometry.faces)}")
+    # If model contains multiple meshes
+    if isinstance(model, trimesh.Scene):
+        print("Number of meshes:", len(model.geometry))
 
-This code:
-- Loads the GLB file
-- Checks model type
-- Prints mesh names, vertices, and faces
+        for name, geometry in model.geometry.items():
+            print("Mesh name:", name)
+            print("Vertices:", len(geometry.vertices))
+            print("Faces:", len(geometry.faces))
+            print("-" * 30)
+    else:
+        print("Vertices:", len(model.vertices))
+        print("Faces:", len(model.faces))
+
+except Exception as e:
+    print("Error loading model:", e)
 
 --------------------------------------------------
-STEP 3: Save Model Information to TXT File
+3. SAVE MODEL INFORMATION TO TXT FILE
 --------------------------------------------------
 
 Python Code:
@@ -56,39 +63,57 @@ import trimesh
 model = trimesh.load("model.glb")
 
 with open("model_info.txt", "w") as file:
-    file.write("GLB Model Information\n")
-    file.write("---------------------\n")
+    file.write("GLB MODEL INFORMATION\n")
+    file.write("=====================\n\n")
 
     if isinstance(model, trimesh.Scene):
-        file.write(f"Number of meshes: {len(model.geometry)}\n\n")
+        file.write(f"Total Meshes: {len(model.geometry)}\n\n")
 
         for name, geometry in model.geometry.items():
-            file.write(f"Mesh Name: {name}\n")
-            file.write(f"Vertices: {len(geometry.vertices)}\n")
-            file.write(f"Faces: {len(geometry.faces)}\n\n")
+            file.write(f"Mesh Name   : {name}\n")
+            file.write(f"Vertices    : {len(geometry.vertices)}\n")
+            file.write(f"Faces       : {len(geometry.faces)}\n")
+            file.write("-" * 25 + "\n")
     else:
         file.write(f"Vertices: {len(model.vertices)}\n")
-        file.write(f"Faces: {len(model.faces)}\n")
+        file.write(f"Faces   : {len(model.faces)}\n")
 
-This creates a file named:
+Output file created:
 model_info.txt
 
 --------------------------------------------------
-STEP 4: View the GLB Model
+4. VIEW / PREVIEW GLB MODEL
 --------------------------------------------------
 
 Python Code:
 
 model.show()
 
-This opens a 3D preview window.
+This opens an interactive 3D window to preview the GLB model.
 
 --------------------------------------------------
-NOTES
+5. COMMON ISSUES & SOLUTIONS
 --------------------------------------------------
 
-- Keep model.glb in the same folder as the Python script
-- Works for static GLB models
-- For animations or Blender export, extra steps are needed
+Problem: model.glb not found
+Solution: Place model.glb in the same folder as the Python script
 
-END OF FILE
+Problem: Viewer does not open
+Solution:
+- Install pyglet correctly
+- Update GPU drivers
+- Run script outside Jupyter Notebook
+
+--------------------------------------------------
+6. USE CASES
+--------------------------------------------------
+
+- Game asset inspection
+- AI / ML 3D preprocessing
+- Model validation
+- Format conversion
+- 3D printing checks
+
+--------------------------------------------------
+END OF DOCUMENT
+--------------------------------------------------
